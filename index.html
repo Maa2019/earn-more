@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08172E">
+<title>Earn More — Lloyd &amp; Havells SA</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root{
+  --ink:#08172E; --deep:#0F2647; --card:#16325C; --line:#24467A;
+  --money:#1FD08A; --money-dim:#0E7C52;
+  --amber:#FFB020; --amber-dim:#8A5D08;
+  --paper:#EEF3FA; --muted:#8AA4C8; --white:#fff;
+  --pad:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--ink); color:var(--paper);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-variant-numeric:tabular-nums;
+  padding-bottom:calc(74px + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:520px;margin:0 auto;padding:0 var(--pad)}
+
+/* ---------- header ---------- */
+header{
+  padding:calc(14px + env(safe-area-inset-top)) 0 12px;
+  background:linear-gradient(180deg,#0B1E3A,#08172E);
+  border-bottom:1px solid var(--line); position:sticky; top:0; z-index:20;
+}
+.brandrow{display:flex;align-items:baseline;gap:9px}
+.logo{
+  font-size:12px;letter-spacing:.22em;font-weight:800;color:var(--white);
+  background:#1B3E70;padding:4px 8px;border-radius:3px;
+}
+.tagline{font-size:11px;color:var(--muted);letter-spacing:.04em}
+h1{margin:8px 0 0;font-size:26px;line-height:1.05;font-weight:800;letter-spacing:-.02em}
+h1 em{font-style:normal;color:var(--money)}
+.sub{margin:5px 0 0;font-size:12.5px;color:var(--muted);line-height:1.4}
+
+/* ---------- controls ---------- */
+.label{font-size:10.5px;letter-spacing:.14em;color:var(--muted);font-weight:700;margin:18px 0 7px}
+.chips{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto;padding:9px 14px;border-radius:99px;border:1px solid var(--line);
+  background:var(--deep);color:var(--paper);font-size:13px;font-weight:650;
+  cursor:pointer;transition:.14s;
+}
+.chip[aria-pressed="true"]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.seg{display:flex;background:var(--deep);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{
+  flex:1;padding:9px 4px;background:none;border:0;color:var(--muted);
+  font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;
+}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--white)}
+
+/* ---------- ladder ---------- */
+.hint{
+  margin:14px 0 10px;padding:11px 13px;border-left:3px solid var(--amber);
+  background:rgba(255,176,32,.09);border-radius:0 7px 7px 0;
+  font-size:12.5px;line-height:1.45;color:#FFDFA8;
+}
+.rung{
+  display:flex;align-items:center;gap:12px;width:100%;text-align:left;
+  padding:13px 14px;margin-bottom:7px;border-radius:11px;cursor:pointer;
+  background:var(--deep);border:1px solid var(--line);color:var(--paper);
+  font-family:inherit;transition:.16s;
+}
+.rung:active{transform:scale(.985)}
+.rung .name{flex:1;min-width:0}
+.rung .n1{font-size:14.5px;font-weight:700;line-height:1.2}
+.rung .n2{font-size:11px;color:var(--muted);margin-top:2px}
+.rung .amt{text-align:right;flex:0 0 auto}
+.rung .rs{font-size:19px;font-weight:800;line-height:1}
+.rung .up{font-size:10.5px;font-weight:800;margin-top:3px;letter-spacing:.02em}
+
+.rung.base{background:var(--card);border-color:var(--paper)}
+.rung.base .n2{color:#BBD0EC}
+.rung.below{opacity:.32}
+.rung.up-1{border-color:var(--amber-dim);background:linear-gradient(90deg,rgba(255,176,32,.10),var(--deep) 62%)}
+.rung.up-2{border-color:var(--money-dim);background:linear-gradient(90deg,rgba(31,208,138,.13),var(--deep) 62%)}
+.rung.up-1 .rs{color:var(--amber)} .rung.up-1 .up{color:var(--amber)}
+.rung.up-2 .rs{color:var(--money)} .rung.up-2 .up{color:var(--money)}
+.rung.base .rs{color:var(--white)}
+
+.headline{
+  margin:16px 0 4px;padding:18px 16px;border-radius:14px;
+  background:linear-gradient(135deg,#0E7C52,#1FD08A);color:#04241A;
+}
+.headline .k{font-size:11px;font-weight:800;letter-spacing:.13em;opacity:.72}
+.headline .v{font-size:36px;font-weight:900;line-height:1.02;margin-top:3px;letter-spacing:-.02em}
+.headline .d{font-size:12.5px;font-weight:650;margin-top:6px;line-height:1.4;opacity:.86}
+
+/* ---------- earnings ---------- */
+.meter{background:var(--deep);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.meter .k{font-size:10.5px;letter-spacing:.13em;color:var(--muted);font-weight:700}
+.meter .v{font-size:31px;font-weight:900;margin:4px 0 2px;letter-spacing:-.02em}
+.bar{height:9px;background:#0A1D38;border-radius:99px;overflow:hidden;margin-top:11px}
+.bar i{display:block;height:100%;border-radius:99px;transition:width .45s cubic-bezier(.2,.8,.3,1)}
+.meter .foot{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:7px}
+
+.field{margin-bottom:11px}
+.field label{display:block;font-size:10.5px;letter-spacing:.12em;color:var(--muted);font-weight:700;margin-bottom:6px}
+select,input[type=number]{
+  width:100%;padding:12px 13px;border-radius:10px;background:var(--deep);
+  border:1px solid var(--line);color:var(--paper);font-size:15px;font-family:inherit;
+  appearance:none;-webkit-appearance:none;
+}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238AA4C8' stroke-width='1.7' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.btn{
+  width:100%;padding:14px;border-radius:11px;border:0;cursor:pointer;
+  font-size:15px;font-weight:800;font-family:inherit;
+  background:var(--money);color:#04241A;
+}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--muted);font-size:12.5px;padding:11px;font-weight:650}
+
+.log{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid var(--line)}
+.log .n1{font-size:13.5px;font-weight:650}
+.log .n2{font-size:11px;color:var(--muted);margin-top:2px}
+.log .rs{font-size:15px;font-weight:800;color:var(--money);margin-left:auto}
+.log .x{background:none;border:0;font-size:20px;cursor:pointer;padding:0 2px;color:#5D7BA6;font-family:inherit;line-height:1}
+.empty{text-align:center;padding:34px 18px;color:var(--muted);font-size:13px;line-height:1.55}
+
+/* ---------- rate card ---------- */
+details{border:1px solid var(--line);border-radius:11px;margin-bottom:8px;background:var(--deep);overflow:hidden}
+summary{padding:13px 14px;font-size:14px;font-weight:750;cursor:pointer;list-style:none;display:flex;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;color:var(--muted);font-size:19px;font-weight:400}
+details[open] summary::after{content:"−"}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+td,th{padding:8px 14px;text-align:right;border-top:1px solid var(--line)}
+th{font-size:10px;letter-spacing:.09em;color:var(--muted);font-weight:700;text-transform:uppercase}
+td:first-child,th:first-child{text-align:left}
+td.v{font-weight:800;color:var(--money)}
+.note{font-size:11px;color:var(--muted);padding:9px 14px;line-height:1.5;border-top:1px solid var(--line)}
+
+/* ---------- nav ---------- */
+nav{
+  position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;
+  background:rgba(11,30,58,.97);backdrop-filter:blur(12px);
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);
+}
+nav button{
+  flex:1;padding:11px 4px 12px;background:none;border:0;cursor:pointer;
+  color:var(--muted);font-size:10.5px;font-weight:700;font-family:inherit;
+  letter-spacing:.05em;
+}
+nav button .ic{display:block;font-size:18px;margin-bottom:2px;line-height:1}
+nav button[aria-pressed="true"]{color:var(--money)}
+section{display:none;padding-bottom:26px}
+section.on{display:block}
+.foot{font-size:10.5px;color:#5D7BA6;line-height:1.55;padding:22px 0 8px;text-align:center}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="brandrow"><span class="logo">LLOYD</span><span class="tagline">A HAVELLS BRAND</span></div>
+    <h1>Sell bigger.<br><em>Earn more.</em></h1>
+    <p class="sub">Aug&ndash;Sep 2026 incentive. Tap what the customer asked for.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============ LADDER ============ -->
+<section id="s-ladder" class="on">
+  <div class="label">CATEGORY</div>
+  <div class="chips" id="cats"></div>
+
+  <div class="label">YOUR UNITS THIS MONTH IN THIS CATEGORY</div>
+  <div class="seg" id="vol">
+    <button data-v="0" aria-pressed="true">Just starting</button>
+    <button data-v="1" aria-pressed="false">Mid-month</button>
+    <button data-v="2" aria-pressed="false">High volume</button>
+  </div>
+
+  <div class="hint" id="hint">Tap the model the customer walked in for. Everything above it is what you could earn instead.</div>
+  <div id="headline"></div>
+  <div id="ladder"></div>
+</section>
+
+<!-- ============ EARNINGS ============ -->
+<section id="s-earn">
+  <div class="meter">
+    <div class="k">LLOYD EARNINGS THIS MONTH</div>
+    <div class="v" id="lloydTot">₹0</div>
+    <div class="bar"><i id="lloydBar" style="width:0;background:var(--money)"></i></div>
+    <div class="foot"><span id="lloydLeft">₹25,000 to go</span><span>Cap ₹25,000</span></div>
+  </div>
+
+  <div class="meter">
+    <div class="k">HAVELLS CROSS-SELL &mdash; NO CAP</div>
+    <div class="v" id="havTot" style="color:var(--amber)">₹0</div>
+    <div class="foot"><span>Every extra unit adds up</span><span id="havCount">0 units</span></div>
+  </div>
+
+  <div class="label">ADD A SALE</div>
+  <div class="field"><label>CATEGORY</label><select id="eCat"></select></div>
+  <div class="field"><label>MODEL</label><select id="eItem"></select></div>
+  <div class="field"><label>UNITS</label><input type="number" id="eQty" value="1" min="1" max="99"></div>
+  <button class="btn" id="addSale">Add sale</button>
+
+  <div class="label">TODAY&rsquo;S LOG</div>
+  <div id="log"></div>
+  <button class="btn ghost" id="clearLog" style="margin-top:14px">Clear all sales</button>
+</section>
+
+<!-- ============ RATE CARD ============ -->
+<section id="s-rates">
+  <p class="sub" style="margin:16px 0 12px">Full incentive rates, 1 Aug &ndash; 30 Sep 2026.</p>
+  <div id="rates"></div>
+  <details>
+    <summary>Rules that cost you money</summary>
+    <div class="note">
+      &bull; Punch sellout within <b>24 hours</b> of invoicing.<br>
+      &bull; Serial number is mandatory on AC, WM, REF, TV, Water Purifier, Water Heater, Air Purifier, Air Cooler.<br>
+      &bull; <b>DC-19 and DC-66</b> serials cannot be punched at all.<br>
+      &bull; Water Purifier needs <b>50% target achievement</b> before any slab pays.<br>
+      &bull; Zero incentive: challans instead of tax invoices, unscanned serials, unclear invoice images, last month&rsquo;s invoices punched this month, multiple outlets on one employee ID, institutional or project sales, unregistered targets.<br>
+      &bull; Payout also scales with your target achievement &mdash; below 75% pays nothing.
+    </div>
+  </details>
+  <div class="foot">
+    Reference tool for Sales Advisors. The official Head Office circular prevails
+    in case of any discrepancy.
+  </div>
+</section>
+
+</div>
+
+<nav>
+  <button data-s="s-ladder" aria-pressed="true"><span class="ic">&#9650;</span>LADDER</button>
+  <button data-s="s-earn" aria-pressed="false"><span class="ic">&#8377;</span>MY EARNINGS</button>
+  <button data-s="s-rates" aria-pressed="false"><span class="ic">&#9776;</span>RATE CARD</button>
+</nav>
+
+<script>
+/* ============================================================
+   DATA — Incentive Policy, 1 Aug – 30 Sep 2026
+   r: [low-volume, mid, high] per-unit rupees
+   ============================================================ */
+const DATA = {
+  "LED TV": { slabNote:"LED TV pays a flat rate per unit. Volume does not change it.", items:[
+    {n:'32" Smart Lite',        s:"Entry",              r:[30,30,30]},
+    {n:'43" Smart Lite',        s:"Entry",              r:[50,50,50]},
+    {n:'32" QLED',              s:"Google FF / WebOS",  r:[60,60,60]},
+    {n:'32" Smart TV',          s:"Google / WebOS",     r:[75,75,75]},
+    {n:'43" Smart TV',          s:"Google / WebOS",     r:[100,100,100]},
+    {n:'43" UHD',               s:"Google / WebOS",     r:[200,200,200]},
+    {n:'43" UHD Vision Pro',    s:"Vision Pro",         r:[250,250,250]},
+    {n:'50" UHD Vision Pro',    s:"Vision Pro",         r:[300,300,300]},
+    {n:'55" UHD',               s:"Google / WebOS",     r:[300,300,300]},
+    {n:'43" QLED',              s:"Google FF / WebOS",  r:[350,350,350]},
+    {n:'55" UHD Vision Pro',    s:"Vision Pro",         r:[350,350,350]},
+    {n:'55" QLED',              s:"Google FF / WebOS",  r:[500,500,500]},
+    {n:'65" QLED',              s:"Google FF / WebOS",  r:[600,600,600]},
+    {n:'50" Mini LED',          s:"Mini LED",           r:[700,700,700]},
+    {n:'55" Mini LED',          s:"Mini LED",           r:[800,800,800]},
+    {n:'75" QLED',              s:"Google FF / WebOS",  r:[800,800,800]},
+    {n:'65" Mini LED',          s:"Mini LED",           r:[1000,1000,1000]},
+    {n:'86" / 100" QLED',       s:"Google FF / WebOS",  r:[2500,2500,2500]},
+    {n:'75" Mini LED',          s:"Mini LED",           r:[4000,4000,4000]},
+    {n:'86" / 100" Mini LED',   s:"Mini LED",           r:[7500,7500,7500]}
+  ]},
+  "Air Conditioner": { slabNote:"Luxuria rates rise with your monthly units. Tonnage rates are flat.", items:[
+    {n:"Window INV 3/4 Star",   s:"Window inverter",    r:[75,75,75]},
+    {n:"1.0 Ton 3/4 Star",      s:"Split inverter",     r:[80,80,80]},
+    {n:"Window INV 5 Star",     s:"Window inverter",    r:[100,100,100]},
+    {n:"1.0 Ton 5 Star",        s:"Split inverter",     r:[100,100,100]},
+    {n:"Luxuria Masterpiece",   s:"Luxuria",            r:[100,150,200]},
+    {n:"1.5 Ton 3/4 Star",      s:"Split inverter",     r:[125,125,125]},
+    {n:"1.5 Ton 5 Star",        s:"Split inverter",     r:[200,200,200]},
+    {n:"Luxuria Stylus",        s:"Luxuria",            r:[200,250,400]},
+    {n:"2.0 Ton 3/4 Star",      s:"Split inverter",     r:[225,225,225]},
+    {n:"Luxuria Stellar",       s:"Luxuria",            r:[250,300,450]},
+    {n:"Hot & Cold 3/4 Star",   s:"Split inverter",     r:[250,250,250]},
+    {n:"Grande HD 3/4 Star",    s:"Split inverter",     r:[250,250,250]},
+    {n:"2.0 Ton 5 Star",        s:"Split inverter",     r:[300,300,300]},
+    {n:"Tower & Cassette",      s:"All models",         r:[300,300,300]},
+    {n:"Hot & Cold 5 Star",     s:"Split inverter",     r:[350,350,350]},
+    {n:"Grande HD 5 Star",      s:"Split inverter",     r:[350,350,350]},
+    {n:"Luxuria Stunnair",      s:"Luxuria (>3 units)", r:[500,800,800]}
+  ]},
+  "Washing Machine": { slabNote:"Fully Automatic rates rise with your monthly units.", items:[
+    {n:"Semi Auto 7.0 Kg",      s:"Aria / Elante / XL / Grande", r:[50,50,50]},
+    {n:"Semi Auto 7.5 Kg",      s:"Aria / Elante / XL / Grande", r:[60,60,60]},
+    {n:"Top Load 6.5 – 8 Kg",   s:"Fully automatic",    r:[75,150,200]},
+    {n:"Semi Auto 8 / 8.5 Kg",  s:"Aria / Elante / XL / Grande", r:[80,80,80]},
+    {n:"Semi Auto 9.0 Kg",      s:"Aria / Digi Grande", r:[100,100,100]},
+    {n:"Top Load 8.5 – 9.0 Kg", s:"Fully automatic",    r:[100,200,300]},
+    {n:"Semi Auto 11/12/14 Kg", s:"Elante PLUSS",       r:[120,120,120]},
+    {n:"Top Load above 9.0 Kg", s:"Fully automatic",    r:[200,300,400]},
+    {n:"Front Load Premium",    s:"Front Load / LENEA / NOVANTE", r:[300,400,600]}
+  ]},
+  "Refrigerator": { slabNote:"Refrigerator rates rise with your monthly units.", items:[
+    {n:"Direct Cool 1 & 2 Star",s:"Direct cool",        r:[50,100,100]},
+    {n:"Direct Cool 3 Star +",  s:"Direct cool",        r:[100,150,150]},
+    {n:"Frost Free",            s:"All models",         r:[200,300,300]},
+    {n:"Chest Freezer",         s:"All models",         r:[200,300,400]},
+    {n:"Side by Side",          s:"All models",         r:[750,1000,1000]}
+  ]},
+  "Havells": { slabNote:"Havells cross-sell has NO earnings cap.", items:[
+    {n:"Personal Grooming",     s:"Cross-sell",         r:[20,40,40]},
+    {n:"BLDC Fan",              s:"Cross-sell",         r:[25,75,75]},
+    {n:"SDA above ₹1,500",      s:"Cross-sell",         r:[30,50,50]},
+    {n:"Water Heater",          s:"Cross-sell",         r:[40,75,75]},
+    {n:"Chimney & Hobbs",       s:"Premium, flat",      r:[300,300,300]},
+    {n:"Water Purifier",        s:"Needs 50% target",   r:[300,400,600]},
+    {n:"Meditate Air Purifier", s:"Premium, flat",      r:[1000,1000,1000]}
+  ]}
+};
+const CATS = Object.keys(DATA);
+const rs = n => "₹" + Number(n).toLocaleString("en-IN");
+
+/* ---------------- state ---------------- */
+let cat = "LED TV", vol = 0, base = null, target = null;
+let sales = [];
+try { sales = JSON.parse(localStorage.getItem("em_sales") || "[]"); } catch(e){ sales = []; }
+const save = () => { try{ localStorage.setItem("em_sales", JSON.stringify(sales)); }catch(e){} };
+
+/* ---------------- ladder ---------------- */
+const $ = id => document.getElementById(id);
+
+CATS.forEach((c,i) => {
+  const b = document.createElement("button");
+  b.className = "chip"; b.textContent = c;
+  b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+  b.onclick = () => {
+    cat = c; base = null; target = null;
+    [...$("cats").children].forEach(x => x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    drawLadder();
+  };
+  $("cats").appendChild(b);
+});
+
+[...$("vol").children].forEach(b => {
+  b.onclick = () => {
+    vol = +b.dataset.v;
+    [...$("vol").children].forEach(x => x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    drawLadder();
+  };
+});
+
+function drawLadder(){
+  const d = DATA[cat];
+  const list = d.items.map((it,i) => ({...it, rate: it.r[vol], i}))
+                      .sort((a,b) => a.rate - b.rate);
+  const el = $("ladder"); el.innerHTML = "";
+
+  const bi = base === null ? -1 : list.findIndex(x => x.n === base);
+  const bRate = bi >= 0 ? list[bi].rate : null;
+
+  // realistic pitch target: a stretch, not the ceiling of the range
+  let ti = -1;
+  if (bi >= 0 && bi < list.length - 1) {
+    ti = target === null ? -1 : list.findIndex(x => x.n === target);
+    if (ti <= bi) ti = Math.min(list.length - 1, bi + Math.max(1, Math.round((list.length - 1 - bi) * 0.45)));
+  }
+
+  const hl = $("headline");
+  if (bi >= 0 && ti > bi) {
+    const t = list[ti], diff = t.rate - bRate;
+    const mult = bRate > 0 ? (t.rate / bRate) : 0;
+    hl.innerHTML =
+      '<div class="headline"><div class="k">IF YOU PITCH THE UPGRADE</div>' +
+      '<div class="v">+' + rs(diff) + '</div>' +
+      '<div class="d">' + list[bi].n + ' pays you ' + rs(bRate) + '. ' +
+      t.n + ' pays ' + rs(t.rate) + ' &mdash; ' + mult.toFixed(1) +
+      '&times; more, same customer. Tap any other row to compare.</div></div>';
+    $("hint").textContent = d.slabNote;
+  } else if (bi >= 0) {
+    hl.innerHTML = "";
+    $("hint").textContent = "That is the top of this range. Nothing above it to upgrade to.";
+  } else {
+    hl.innerHTML = "";
+    $("hint").textContent =
+      "Tap the model the customer walked in for. Everything above it is what you could earn instead.";
+  }
+
+  list.forEach((it, idx) => {
+    const b = document.createElement("button");
+    b.className = "rung";
+    let up = "";
+    if (bi >= 0) {
+      if (idx === bi) b.classList.add("base");
+      else if (idx < bi) b.classList.add("below");
+      else {
+        const diff = it.rate - bRate;
+        b.classList.add(idx === ti ? "up-2" : "up-1");
+        up = '<div class="up">+' + rs(diff) + (idx === ti ? " &mdash; PITCH THIS" : " FOR YOU") + '</div>';
+      }
+    }
+    b.innerHTML =
+      '<div class="name"><div class="n1">' + it.n + '</div><div class="n2">' + it.s + '</div></div>' +
+      '<div class="amt"><div class="rs">' + rs(it.rate) + '</div>' + up + '</div>';
+    b.onclick = () => {
+      if (base === null || it.n === base) { base = (base === it.n) ? null : it.n; target = null; }
+      else if (it.rate > bRate) { target = (target === it.n) ? null : it.n; }
+      else { base = it.n; target = null; }
+      drawLadder();
+    };
+    el.appendChild(b);
+  });
+}
+
+/* ---------------- earnings ---------------- */
+CATS.forEach(c => $("eCat").appendChild(new Option(c, c)));
+function fillItems(){
+  $("eItem").innerHTML = "";
+  DATA[$("eCat").value].items
+    .slice().sort((a,b) => a.r[0] - b.r[0])
+    .forEach(it => $("eItem").appendChild(new Option(it.n + "  —  " + rs(it.r[vol]), it.n)));
+}
+$("eCat").onchange = fillItems;
+fillItems();
+
+$("addSale").onclick = () => {
+  const c = $("eCat").value, n = $("eItem").value;
+  const q = Math.max(1, Math.min(99, parseInt($("eQty").value) || 1));
+  const it = DATA[c].items.find(x => x.n === n);
+  sales.unshift({ c, n, q, rate: it.r[vol], t: Date.now() });
+  save(); $("eQty").value = 1; drawEarn();
+};
+
+$("clearLog").onclick = () => {
+  if (!sales.length) return;
+  if (confirm("Clear every sale you have logged?")) { sales = []; save(); drawEarn(); }
+};
+
+function drawEarn(){
+  let lloyd = 0, hav = 0, havU = 0;
+  sales.forEach(s => {
+    const v = s.rate * s.q;
+    if (s.c === "Havells") { hav += v; havU += s.q; } else lloyd += v;
+  });
+  const capped = Math.min(lloyd, 25000);
+  $("lloydTot").textContent = rs(lloyd);
+  $("lloydBar").style.width = Math.min(100, lloyd / 250) + "%";
+  $("lloydBar").style.background = lloyd >= 25000 ? "var(--amber)" : "var(--money)";
+  $("lloydLeft").textContent = lloyd >= 25000
+    ? "Cap reached — switch to Havells cross-sell"
+    : rs(25000 - lloyd) + " to go";
+  $("havTot").textContent = rs(hav);
+  $("havCount").textContent = havU + (havU === 1 ? " unit" : " units");
+
+  const L = $("log"); L.innerHTML = "";
+  if (!sales.length) {
+    L.innerHTML = '<div class="empty">No sales logged yet.<br>Add your first one above.</div>';
+    return;
+  }
+  sales.forEach((s, i) => {
+    const d = document.createElement("div");
+    d.className = "log";
+    d.innerHTML =
+      '<div><div class="n1">' + s.n + '</div>' +
+      '<div class="n2">' + s.c + ' &middot; ' + s.q + ' × ' + rs(s.rate) + '</div></div>' +
+      '<div class="rs">' + rs(s.rate * s.q) + '</div>' +
+      '<button class="x" aria-label="Remove">&times;</button>';
+    d.querySelector(".x").onclick = () => { sales.splice(i,1); save(); drawEarn(); };
+    L.appendChild(d);
+  });
+}
+
+/* ---------------- rate card ---------------- */
+(function(){
+  const box = $("rates");
+  CATS.forEach(c => {
+    const d = document.createElement("details");
+    const rows = DATA[c].items.slice().sort((a,b) => a.r[0] - b.r[0]).map(it => {
+      const same = it.r[0] === it.r[1] && it.r[1] === it.r[2];
+      return "<tr><td>" + it.n + "</td>" +
+             (same
+               ? '<td class="v" colspan="3">' + rs(it.r[0]) + " flat</td>"
+               : '<td class="v">' + rs(it.r[0]) + '</td><td class="v">' + rs(it.r[1]) +
+                 '</td><td class="v">' + rs(it.r[2]) + "</td>") +
+             "</tr>";
+    }).join("");
+    d.innerHTML = "<summary>" + c + "</summary>" +
+      "<table><tr><th>Model</th><th>Low</th><th>Mid</th><th>High</th></tr>" + rows + "</table>" +
+      '<div class="note">' + DATA[c].slabNote + "</div>";
+    box.appendChild(d);
+  });
+})();
+
+/* ---------------- nav ---------------- */
+document.querySelectorAll("nav button").forEach(b => {
+  b.onclick = () => {
+    document.querySelectorAll("nav button").forEach(x => x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    document.querySelectorAll("section").forEach(s => s.classList.remove("on"));
+    $(b.dataset.s).classList.add("on");
+    window.scrollTo(0,0);
+    if (b.dataset.s === "s-earn") fillItems();
+  };
+});
+
+drawLadder();
+drawEarn();
+
+if ("serviceWorker" in navigator)
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(()=>{}));
+</script>
+</body>
+</html>

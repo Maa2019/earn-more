@@ -142,6 +142,23 @@ td:first-child,th:first-child{text-align:left}
 td.v{font-weight:800;color:var(--money)}
 .note{font-size:11px;color:var(--muted);padding:9px 14px;line-height:1.5;border-top:1px solid var(--line)}
 
+/* ---------- battle card ---------- */
+table.vs{margin-top:12px;border:1px solid var(--line);border-radius:11px;overflow:hidden;background:var(--deep)}
+table.vs th,table.vs td{padding:10px 11px;font-size:12.5px;text-align:left;border-top:1px solid var(--line);vertical-align:top}
+table.vs tr:first-child th{border-top:0;font-size:10px;letter-spacing:.1em;padding-top:11px}
+table.vs th.ll,table.vs td.ll{background:rgba(31,208,138,.10)}
+table.vs th.ll{color:var(--money)}
+table.vs td.ll{font-weight:750;color:var(--white)}
+table.vs td.sp{color:var(--muted);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;width:74px;font-weight:700}
+.pt{
+  padding:11px 13px 11px 30px;margin-bottom:6px;border-radius:9px;
+  background:var(--deep);border:1px solid var(--line);
+  font-size:13px;line-height:1.45;position:relative;
+}
+.pt::before{content:"\2713";position:absolute;left:11px;top:11px;color:var(--money);font-weight:800}
+.pt.sm{background:none;border-color:transparent;padding-top:5px;padding-bottom:5px;margin-bottom:1px;font-size:12.5px}
+.pt.sm::before{content:"\25B8";color:var(--amber);top:5px}
+
 /* ---------- nav ---------- */
 nav{
   position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;
@@ -150,8 +167,8 @@ nav{
 }
 nav button{
   flex:1;padding:11px 4px 12px;background:none;border:0;cursor:pointer;
-  color:var(--muted);font-size:10.5px;font-weight:700;font-family:inherit;
-  letter-spacing:.05em;
+  color:var(--muted);font-size:9.5px;font-weight:700;font-family:inherit;
+  letter-spacing:.03em;
 }
 nav button .ic{display:block;font-size:18px;margin-bottom:2px;line-height:1}
 nav button[aria-pressed="true"]{color:var(--money)}
@@ -216,6 +233,13 @@ section.on{display:block}
   <button class="btn ghost" id="clearLog" style="margin-top:14px">Clear all sales</button>
 </section>
 
+<!-- ============ WHY LLOYD ============ -->
+<section id="s-vs">
+  <div class="label">CUSTOMER IS COMPARING WITH</div>
+  <div class="chips" id="rivals"></div>
+  <div id="vsBox"></div>
+</section>
+
 <!-- ============ RATE CARD ============ -->
 <section id="s-rates">
   <p class="sub" style="margin:16px 0 12px">Full incentive rates, 1 Aug &ndash; 30 Sep 2026.</p>
@@ -241,8 +265,9 @@ section.on{display:block}
 
 <nav>
   <button data-s="s-ladder" aria-pressed="true"><span class="ic">&#9650;</span>LADDER</button>
-  <button data-s="s-earn" aria-pressed="false"><span class="ic">&#8377;</span>MY EARNINGS</button>
-  <button data-s="s-rates" aria-pressed="false"><span class="ic">&#9776;</span>RATE CARD</button>
+  <button data-s="s-earn" aria-pressed="false"><span class="ic">&#8377;</span>EARNINGS</button>
+  <button data-s="s-vs" aria-pressed="false"><span class="ic">&#9878;</span>WHY LLOYD</button>
+  <button data-s="s-rates" aria-pressed="false"><span class="ic">&#9776;</span>RATES</button>
 </nav>
 
 <script>
@@ -473,6 +498,109 @@ function drawEarn(){
     L.appendChild(d);
   });
 }
+
+/* ============================================================
+   BATTLE CARD — Lloyd 32" QLED vs competition
+   ============================================================ */
+const LLOYD32 = {
+  ws:  { m:'32WS500 / 501', p:'₹18,410 – 18,970', os:'QLED + WebOS',
+         hdr:'HDR10', rem:'Basic / Voice remote', snd:'10W, Dolby Audio' },
+  hx:  { m:'32HX600', p:'₹18,970', os:'QLED + Google TV',
+         hdr:'HDR10', rem:'Voice remote', snd:'10W, Dolby Audio' }
+};
+
+const RIVALS = {
+  Samsung: {
+    use:'ws', m:'4570 / 4560 / 4520', p:'₹16,500', os:'LED + Tizen',
+    hdr:'HDR10', rem:'Voice / E / Basic remote', snd:'10W (no Dolby)',
+    open:'They are ₹1,900 cheaper. Here is what that ₹1,900 buys you.',
+    pts:[
+      'Lloyd QLED vs Samsung LED — better display in the same price range.',
+      'WebOS launches apps faster and has a cleaner interface than Tizen.',
+      'Lloyd HX600 at ₹18,970 gives QLED + Google TV. Samsung at ₹16,500 is LED.',
+      'HDR10 on both — Samsung HDR10+ only on the top 4570 model.',
+      'Dolby Audio vs Samsung Adaptive Sound. Dolby is the cinema standard.'
+    ]
+  },
+  LG: {
+    use:'ws', m:'32LB651 / LR686', p:'₹17,500 – 18,000', os:'LED + WebOS',
+    hdr:'Alpha 5', rem:'MMRC / No MMRC', snd:'16W, Basic / Atmos',
+    open:'Same WebOS, same price. The difference is the panel.',
+    pts:[
+      'Same operating system on both — so compare the display. Lloyd is QLED, LG is LED.',
+      'Lloyd HX600 at ₹18,970 gives Google TV and better viewing than LG\u2019s LED base model.',
+      'HDR10 at parity across both brands at base level.',
+      'LG leads on sound (16W vs 10W) — lead with picture, then offer a soundbar.'
+    ]
+  },
+  Sony: {
+    use:'ws', m:'32W835', p:'₹27,500', os:'LED + Google TV',
+    hdr:'X-Reality Pro', rem:'Voice remote', snd:'10W, Dolby Audio',
+    open:'Sony costs ₹8,600 more — and it is still an LED panel.',
+    pts:[
+      'Lloyd QLED vs Sony LED. Lloyd has the superior display at the better price.',
+      'QLED gives wider colour gamut and better colour volume than Sony\u2019s LED.',
+      'Price gap is almost ₹8,600 on a 32-inch. Show the customer what else that buys.',
+      'Sony\u2019s strength is brand and processing — take the customer to the demo wall and let them look.'
+    ]
+  },
+  Haier: {
+    use:'ws', m:'32S80 / 32A9G', p:'₹14,500 – 18,000', os:'QLED + Google TV',
+    hdr:'Not specified', rem:'Voice remote', snd:'10W, Dolby Audio',
+    open:'Careful — Haier can be ₹3,900 cheaper with QLED too. Sell service and brand, not specs.',
+    pts:[
+      'Lloyd WS500 runs WebOS, noticeably more polished and premium than Haier\u2019s Google TV.',
+      'Lloyd carries Havells brand backing with a far stronger after-sales service network.',
+      'Haier uses a Realtek processor, the kind commonly found in the laptop industry.',
+      'On the ₹18,000 Haier the price is level — compare service and brand trust, not price.'
+    ]
+  }
+};
+
+const SMART = [
+  'QLED display for better colour and clarity',
+  'WebOS / Google TV — smarter and faster',
+  'Dolby Audio for premium sound',
+  'Better technology at the best price',
+  'Havells brand with reliable after-sales'
+];
+
+let rival = "Samsung";
+
+Object.keys(RIVALS).forEach((k,i) => {
+  const b = document.createElement("button");
+  b.className = "chip"; b.textContent = k;
+  b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+  b.onclick = () => {
+    rival = k;
+    [...$("rivals").children].forEach(x => x.setAttribute("aria-pressed","false"));
+    b.setAttribute("aria-pressed","true");
+    drawVs();
+  };
+  $("rivals").appendChild(b);
+});
+
+function drawVs(){
+  const r = RIVALS[rival], L = LLOYD32[r.use];
+  const row = (k, a, b) =>
+    '<tr><td class="sp">' + k + '</td><td class="ll">' + a + '</td><td>' + b + '</td></tr>';
+  $("vsBox").innerHTML =
+    '<div class="hint">' + r.open + '</div>' +
+    '<table class="vs"><tr><th></th><th class="ll">LLOYD</th><th>' + rival.toUpperCase() + '</th></tr>' +
+    row('Model',   L.m,   r.m) +
+    row('Price',   L.p,   r.p) +
+    row('Display', L.os,  r.os) +
+    row('Processor', L.hdr, r.hdr) +
+    row('Remote',  L.rem, r.rem) +
+    row('Sound',   L.snd, r.snd) +
+    '</table>' +
+    '<div class="label">SAY THIS AT THE COUNTER</div>' +
+    r.pts.map(p => '<div class="pt">' + p + '</div>').join('') +
+    '<div class="label">IF THEY ARE STILL UNDECIDED</div>' +
+    SMART.map(p => '<div class="pt sm">' + p + '</div>').join('') +
+    '<div class="foot">32-inch pricing as circulated. Confirm current MOP before quoting.</div>';
+}
+drawVs();
 
 /* ---------------- rate card ---------------- */
 (function(){

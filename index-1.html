@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#08172E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Earn More — Lloyd &amp; Havells SA</title>
+<style>
+:root{
+  --bg:#08172E; --bg2:#0E2447; --card:#12294D; --line:#1E3A66;
+  --ink:#F2F6FC; --dim:#93A7C4; --navy:#273B80;
+  --teal:#2AA7C9; --gold:#F2B33D; --good:#3ECF8E; --bad:#FF6B6B;
+  --pad:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--ink);
+  font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-variant-numeric:tabular-nums;
+  padding-bottom:calc(72px + env(safe-area-inset-bottom));
+}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.01em}
+.wrap{padding:var(--pad);max-width:640px;margin:0 auto}
+.eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-weight:700}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin:12px 0}
+.row{display:flex;gap:10px;align-items:center}
+.row.sb{justify-content:space-between}
+.grow{flex:1;min-width:0}
+label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);font-weight:700;margin:0 0 6px}
+select,input{
+  width:100%;background:var(--bg2);color:var(--ink);border:1px solid var(--line);
+  border-radius:10px;padding:11px 12px;font:inherit;font-size:15px
+}
+select:focus,input:focus,button:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+button{font:inherit;font-weight:700;border:0;border-radius:10px;padding:13px 14px;background:var(--teal);color:#04121F;width:100%}
+button.ghost{background:transparent;color:var(--dim);border:1px solid var(--line);font-weight:600}
+button.warnbtn{background:var(--gold);color:#2A1B00}
+.big{font-size:34px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.mid{font-size:22px;font-weight:800;letter-spacing:-.01em}
+.sm{font-size:12px;color:var(--dim)}
+.bar{height:8px;border-radius:99px;background:var(--bg2);overflow:hidden;margin-top:10px}
+.bar>i{display:block;height:100%;background:var(--teal);width:0;transition:width .5s ease}
+.bar.gold>i{background:var(--gold)} .bar.good>i{background:var(--good)}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:4px 9px;border-radius:99px;letter-spacing:.04em}
+.pill.lock{background:rgba(255,107,107,.15);color:var(--bad)}
+.pill.ok{background:rgba(62,207,142,.15);color:var(--good)}
+.pill.warn{background:rgba(242,179,61,.15);color:var(--gold)}
+.note{border-left:3px solid var(--gold);background:rgba(242,179,61,.08);padding:10px 12px;border-radius:0 10px 10px 0;font-size:13px;margin:10px 0}
+.note.bad{border-color:var(--bad);background:rgba(255,107,107,.09)}
+.note.good{border-color:var(--good);background:rgba(62,207,142,.09)}
+.step{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:12px;margin:8px 0;background:var(--bg2);width:100%;text-align:left;color:var(--ink);font-weight:600}
+.step .up{font-size:11px;color:var(--dim);font-weight:700;letter-spacing:.06em}
+.step .amt{font-size:18px;font-weight:800;color:var(--good);white-space:nowrap}
+.step.asked{border-color:var(--teal);background:rgba(42,167,201,.1)}
+.step.target{border-color:var(--gold)}
+.logrow{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px}
+.logrow:last-child{border-bottom:0}
+nav{
+  position:fixed;left:0;right:0;bottom:0;display:flex;background:#050F1F;
+  border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);z-index:9
+}
+nav button{background:none;color:var(--dim);border-radius:0;padding:11px 4px;font-size:10px;letter-spacing:.06em;font-weight:700}
+nav button.on{color:var(--teal);box-shadow:inset 0 2px 0 var(--teal)}
+nav button i{display:block;font-style:normal;font-size:17px;margin-bottom:3px}
+.tab{display:none} .tab.on{display:block}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+th{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+td.n{text-align:right;font-weight:700}
+.banner{background:var(--gold);color:#2A1B00;font-size:12px;font-weight:700;padding:9px 14px;text-align:center}
+.hd{display:flex;justify-content:space-between;align-items:center;padding:14px var(--pad) 0}
+.brand{font-weight:800;letter-spacing:.16em;font-size:12px;color:var(--dim)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="banner" id="cfgWarn">Incentive rates below are placeholders — replace RATES in the config block before field use.</div>
+
+<div class="hd">
+  <div class="brand">LLOYD · A HAVELLS BRAND</div>
+  <button class="ghost" style="width:auto;padding:6px 10px;font-size:11px" onclick="toggleLang()" id="langBtn">हिंदी</button>
+</div>
+
+<!-- ============ LADDER ============ -->
+<section class="tab on" id="t-ladder"><div class="wrap">
+  <div class="eyebrow" data-i18n="ladderEyebrow">Aug–Sep 2026 incentive</div>
+  <h1 style="font-size:26px;margin:6px 0 4px" data-i18n="ladderTitle">Sell bigger. Earn more.</h1>
+  <p class="sm" data-i18n="ladderSub">Tap the model the customer walked in for. Everything above it is what you could earn instead.</p>
+
+  <div class="card">
+    <label data-i18n="lblCategory">Category</label>
+    <select id="ladCat" onchange="renderLadder()"></select>
+    <div style="height:12px"></div>
+    <label data-i18n="lblAsked">Model the customer asked for</label>
+    <select id="ladModel" onchange="renderLadder()"></select>
+  </div>
+
+  <div id="ladderOut"></div>
+</div></section>
+
+<!-- ============ EARNINGS ============ -->
+<section class="tab" id="t-earn"><div class="wrap">
+  <div class="eyebrow" data-i18n="earnEyebrow">Your month so far</div>
+
+  <div class="card">
+    <label data-i18n="lblTarget">Target achievement</label>
+    <div class="row">
+      <div class="grow"><input type="number" id="tgtDone" min="0" placeholder="Units done" oninput="save();renderEarn()"></div>
+      <div class="sm">/</div>
+      <div class="grow"><input type="number" id="tgtTotal" min="1" placeholder="Target" oninput="save();renderEarn()"></div>
+    </div>
+    <div class="bar" id="achBar"><i></i></div>
+    <div id="achMsg" style="margin-top:10px"></div>
+  </div>
+
+  <div class="card">
+    <div class="row sb"><div class="eyebrow" data-i18n="lblLloyd">Lloyd earnings</div><span id="lloydPill" class="pill"></span></div>
+    <div class="big" id="lloydAmt">₹0</div>
+    <div class="bar gold" id="capBar"><i></i></div>
+    <div class="sm" id="capMsg" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card">
+    <div class="row sb"><div class="eyebrow" data-i18n="lblHavells">Havells cross-sell — no cap</div></div>
+    <div class="big" id="havAmt">₹0</div>
+    <div class="sm" id="havMsg" style="margin-top:8px"></div>
+  </div>
+
+  <div id="capFlip"></div>
+
+  <div class="card">
+    <div class="eyebrow" data-i18n="lblUpgrades">Upgrades you influenced</div>
+    <div class="mid" id="upCount">0</div>
+    <div class="sm" data-i18n="upHelp">Counted when you open the ladder for a model, then log a higher one in the same category.</div>
+  </div>
+
+  <div class="row">
+    <button class="ghost" onclick="exportCSV()" data-i18n="btnCsv">Download CSV</button>
+    <button class="ghost" onclick="sendTL()" data-i18n="btnTL">Send to TL</button>
+  </div>
+</div></section>
+
+<!-- ============ LOG SALE ============ -->
+<section class="tab" id="t-log"><div class="wrap">
+  <div class="eyebrow" data-i18n="logEyebrow">Add a sale</div>
+  <h2 style="font-size:20px;margin:6px 0 10px" data-i18n="logTitle">Punch it before it stops paying</h2>
+
+  <div class="card">
+    <label data-i18n="lblCategory">Category</label>
+    <select id="sCat" onchange="fillSaleModels()"></select>
+    <div style="height:12px"></div>
+    <label data-i18n="lblModel">Model</label>
+    <select id="sModel"></select>
+    <div style="height:12px"></div>
+    <div class="row">
+      <div class="grow"><label data-i18n="lblUnits">Units</label><input type="number" id="sUnits" value="1" min="1"></div>
+      <div class="grow"><label data-i18n="lblInvoice">Invoice date &amp; time</label><input type="datetime-local" id="sWhen"></div>
+    </div>
+    <div style="height:12px"></div>
+    <label data-i18n="lblSerial">Serial number</label>
+    <input id="sSerial" placeholder="Scan or type" oninput="checkSerial()">
+    <div id="serialMsg"></div>
+    <div style="height:12px"></div>
+    <button onclick="addSale()" data-i18n="btnAdd">Add sale</button>
+  </div>
+
+  <div class="card">
+    <div class="row sb"><div class="eyebrow" data-i18n="lblLog">Sales log</div>
+      <button class="ghost" style="width:auto;padding:6px 10px;font-size:11px" onclick="clearAll()" data-i18n="btnClear">Clear all</button></div>
+    <div id="logOut"></div>
+  </div>
+</div></section>
+
+<!-- ============ RATES ============ -->
+<section class="tab" id="t-rates"><div class="wrap">
+  <div class="eyebrow" data-i18n="ratesEyebrow">1 Aug – 30 Sep 2026</div>
+  <h2 style="font-size:20px;margin:6px 0 10px" data-i18n="ratesTitle">Full incentive rates</h2>
+  <div id="ratesOut"></div>
+
+  <div class="card">
+    <h3 style="font-size:15px;margin-bottom:8px" data-i18n="rulesTitle">Rules that cost you money</h3>
+    <div id="rulesOut" class="sm"></div>
+  </div>
+  <p class="sm" data-i18n="disclaimer">Reference tool for Sales Advisors. The official Head Office circular prevails in case of any discrepancy.</p>
+</div></section>
+
+<!-- ============ FINANCE & OFFERS ============ -->
+<section class="tab" id="t-fin"><div class="wrap">
+  <div class="eyebrow" id="finPeriod">Finance &amp; consumer offers</div>
+  <h2 style="font-size:20px;margin:6px 0 4px" data-i18n="finTitle">What will he pay per month?</h2>
+  <p class="sm" data-i18n="finSub">Search the model on the price tag. Every bank scheme it qualifies for, with the real monthly figure.</p>
+
+  <div class="card">
+    <label data-i18n="lblCategory">Category</label>
+    <select id="finCat" onchange="finSearch()"></select>
+    <div style="height:12px"></div>
+    <label data-i18n="lblFind">Model or item code</label>
+    <input id="finQ" placeholder="e.g. 55US850C or GL55U3T1RS" oninput="finSearch()">
+  </div>
+
+  <div id="finList"></div>
+  <div id="finDetail"></div>
+</div></section>
+
+<nav>
+  <button class="on" onclick="go('ladder',this)"><i>▲</i>LADDER</button>
+  <button onclick="go('earn',this)"><i>₹</i>EARNINGS</button>
+  <button onclick="go('fin',this)"><i>%</i>FINANCE</button>
+  <button onclick="go('log',this)"><i>＋</i>LOG SALE</button>
+  <button onclick="go('rates',this)"><i>☰</i>RATES</button>
+</nav>
+
+<script>
+/* ==================================================================
+   CONFIG — everything you need to update each cycle lives here.
+   Drop a rates.json next to index.html with the same shape and it
+   will be used instead, so you never have to touch the code again.
+   ================================================================== */
+var CONFIG = {
+  period: "1 Aug – 30 Sep 2026",
+  lloydCap: 25000,
+  minAchievementPct: 75,          // below this, nothing pays
+  punchWindowHours: 24,
+  blockedSerialPrefixes: ["DC-19","DC19","DC-66","DC66"],
+  serialMandatory: ["AC","Washing Machine","Refrigerator","LED TV","Water Purifier","Water Heater","Air Purifier","Air Cooler"],
+  categoryGates: { "Water Purifier": 50 },   // needs 50% target before any slab pays
+
+  /* per-unit incentive, ascending. emi = fixed EMI ₹/month from the
+     Aug 2026 finance one-pager, used to show the customer the real
+     monthly gap. Set emi to null where no fixed-EMI scheme applies. */
+  categories: {
+    "LED TV": { brand:"Lloyd", models:[
+      { name:'32" LED (Voice Assist.)', rate:120, emi:null },
+      { name:'43" 4K',                  rate:180, emi:1777 },
+      { name:'55" QLED',                rate:450, emi:4001 },
+      { name:'65" QLED',                rate:700, emi:4001 },
+      { name:'75" LED',                 rate:900, emi:4001 },
+      { name:'86" UX900',               rate:1000, emi:4001 }
+    ]},
+    "Refrigerator": { brand:"Lloyd", models:[
+      { name:"DC below 200L",     rate:90,  emi:1425 },
+      { name:"DC above 200L",     rate:130, emi:1625 },
+      { name:"FF below 300L",     rate:220, emi:2425 },
+      { name:"FF above 300L",     rate:320, emi:2625 },
+      { name:"Side-by-Side",      rate:500, emi:2625 }
+    ]},
+    "Washing Machine": { brand:"Lloyd", models:[
+      { name:"Semi Automatic",    rate:80,  emi:1026 },
+      { name:"Top Load",          rate:200, emi:2026 },
+      { name:"Front Load",        rate:400, emi:3026 }
+    ]},
+    "AC": { brand:"Lloyd", models:[
+      { name:"Fixed speed 3★",        rate:150, emi:2026 },
+      { name:"Inverter below ₹40,000",rate:250, emi:2026 },
+      { name:"Inverter above ₹40,000",rate:400, emi:3026 },
+      { name:"Stellar",               rate:600, emi:3026 },
+      { name:"Stunair",               rate:800, emi:3026 }
+    ]},
+    "Water Purifier": { brand:"Havells", models:[
+      { name:"UV",  rate:150, emi:null },
+      { name:"RO",  rate:300, emi:null }
+    ]},
+    "Water Heater": { brand:"Havells", models:[
+      { name:"Instant",  rate:60,  emi:null },
+      { name:"Storage",  rate:120, emi:null }
+    ]},
+    "Air Purifier": { brand:"Havells", models:[
+      { name:"Room purifier", rate:200, emi:null }
+    ]},
+    "Air Cooler": { brand:"Havells", models:[
+      { name:"Personal", rate:50,  emi:null },
+      { name:"Desert",   rate:110, emi:null }
+    ]}
+  },
+
+  rules: [
+    "Punch sellout within <b>24 hours</b> of invoicing.",
+    "Serial number is mandatory on AC, WM, REF, TV, Water Purifier, Water Heater, Air Purifier, Air Cooler.",
+    "<b>DC-19 and DC-66</b> serials cannot be punched at all.",
+    "Water Purifier needs <b>50% target achievement</b> before any slab pays.",
+    "Zero incentive: challans instead of tax invoices, unscanned serials, unclear invoice images, last month’s invoices punched this month, multiple outlets on one employee ID, institutional or project sales, unregistered targets.",
+    "Payout also scales with your target achievement — below 75% pays nothing."
+  ]
+};
+
+var I18N = {
+  hi:{
+    ladderTitle:"बड़ा बेचो। ज़्यादा कमाओ।",
+    ladderSub:"ग्राहक जिस मॉडल के लिए आया, उस पर टैप करें। ऊपर के सभी मॉडल आपकी अतिरिक्त कमाई हैं।",
+    lblCategory:"कैटेगरी", lblAsked:"ग्राहक ने कौन सा मॉडल माँगा", lblModel:"मॉडल",
+    lblUnits:"यूनिट", lblInvoice:"इनवॉइस तारीख़ व समय", lblSerial:"सीरियल नंबर",
+    lblTarget:"टारगेट उपलब्धि", lblLloyd:"लॉयड कमाई", lblHavells:"हैवेल्स क्रॉस-सेल — कोई सीमा नहीं",
+    lblUpgrades:"आपके कराए अपग्रेड", lblLog:"सेल्स लॉग",
+    btnAdd:"सेल जोड़ें", btnClear:"सब हटाएँ", btnCsv:"CSV डाउनलोड", btnTL:"TL को भेजें",
+    logTitle:"पेमेंट रुकने से पहले पंच करें", rulesTitle:"ये गलतियाँ पैसा काटती हैं",
+    upHelp:"जब आप किसी मॉडल की लैडर खोलें और उसी कैटेगरी में ऊपर का मॉडल लॉग करें, तब गिना जाता है।"
+  }
+};
+
+/* ================= storage (works without localStorage) ============ */
+var MEM = {};
+function ls(k,v){
+  try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,v); return v; }
+  catch(e){ if(v===undefined) return MEM[k]===undefined?null:MEM[k]; MEM[k]=v; return v; }
+}
+var S = { sales:[], done:"", target:"", pitched:null, lang:"en" };
+function load(){ try{ var r=ls("earnmore"); if(r) S=Object.assign(S,JSON.parse(r)); }catch(e){} }
+function save(){ S.done=$("tgtDone").value; S.target=$("tgtTotal").value; ls("earnmore",JSON.stringify(S)); }
+function $(id){ return document.getElementById(id); }
+function rup(n){ return "₹"+Math.round(n).toLocaleString("en-IN"); }
+
+/* ================= config loading ================================= */
+function boot(){
+  fetch("rates.json").then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(j){ CONFIG=j; $("cfgWarn").style.display="none"; start(); })
+    .catch(function(){ start(); });
+}
+function start(){
+  load();
+  var cats=Object.keys(CONFIG.categories);
+  fillSel($("ladCat"),cats); fillSel($("sCat"),cats);
+  fillSaleModels();
+  $("tgtDone").value=S.done; $("tgtTotal").value=S.target;
+  $("sWhen").value=new Date(Date.now()-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,16);
+  if(S.lang==="hi") applyLang("hi");
+  renderLadder(); renderEarn(); renderLog(); renderRates();
+  setInterval(renderLog,60000);
+}
+function fillSel(sel,arr){ sel.innerHTML=arr.map(function(x){return "<option>"+x+"</option>"}).join(""); }
+
+/* ================= navigation ===================================== */
+function go(id,btn){
+  document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("on")});
+  $("t-"+id).classList.add("on");
+  document.querySelectorAll("nav button").forEach(function(b){b.classList.remove("on")});
+  btn.classList.add("on");
+  window.scrollTo(0,0);
+  if(id==="earn") renderEarn();
+  if(id==="fin") loadFinance();
+}
+
+/* ================= finance & consumer offers ====================== */
+var FIN=null, FINSTATE="idle";
+function loadFinance(){
+  if(FINSTATE!=="idle") return;
+  FINSTATE="loading";
+  $("finList").innerHTML='<div class="card sm">Loading scheme data…</div>';
+  fetch("finance.json").then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(j){
+      FIN=j; FINSTATE="ready";
+      FIN.byId={}; FIN.schemes.forEach(function(s){ FIN.byId[s.id]=s; });
+      var cats=[]; FIN.models.forEach(function(m){ if(m.cat && cats.indexOf(m.cat)<0) cats.push(m.cat); });
+      cats.sort(); fillSel($("finCat"),["All categories"].concat(cats));
+      $("finPeriod").textContent="Finance & consumer offers · "+FIN.period;
+      finSearch();
+    })
+    .catch(function(){
+      FINSTATE="idle";
+      $("finList").innerHTML='<div class="note bad">finance.json not found. Upload it next to index.html in the repo.</div>';
+    });
+}
+function emiFor(mop,sch){
+  var t=parseFloat(sch.tenure)||0, a=parseFloat(sch.adv)||0;
+  if(!mop||!t) return null;
+  var per=Math.round(mop/t);
+  return { per:per, adv:a, upfront:per*a, tenure:t, sch:sch };
+}
+function finSearch(){
+  if(FINSTATE!=="ready") return;
+  var q=($("finQ").value||"").trim().toUpperCase();
+  var cat=$("finCat").value;
+  var res=FIN.models.filter(function(m){
+    if(cat && cat!=="All categories" && m.cat!==cat) return false;
+    if(!q) return true;
+    return (m.code||"").toUpperCase().indexOf(q)>=0 || (m.model||"").toUpperCase().indexOf(q)>=0
+        || (m.size||"").toUpperCase().indexOf(q)>=0;
+  });
+  var show=res.slice(0,40);
+  $("finDetail").innerHTML="";
+  $("finList").innerHTML='<div class="card"><div class="sm" style="margin-bottom:8px">'+
+    res.length+' model'+(res.length===1?"":"s")+(res.length>40?" — showing first 40, narrow the search":"")+'</div>'+
+    show.map(function(m){
+      return '<div class="logrow" onclick="finPick(\''+m.code.replace(/'/g,"")+'\')" style="cursor:pointer">'+
+        '<div class="grow"><b>'+(m.model||m.code)+'</b><div class="sm">'+m.cat+(m.size?" · "+m.size:"")+" · "+m.code+'</div></div>'+
+        '<div class="n" style="font-weight:800;white-space:nowrap">'+(m.mop?rup(m.mop):"—")+'</div></div>';
+    }).join("")+'</div>';
+}
+function finPick(code){
+  var m=null; for(var i=0;i<FIN.models.length;i++) if(FIN.models[i].code===code){ m=FIN.models[i]; break; }
+  if(!m) return;
+  var opts=(m.s||[]).map(function(id){ return emiFor(m.mop,FIN.byId[id]); }).filter(Boolean);
+  opts.sort(function(a,b){ return a.per-b.per || a.upfront-b.upfront; });
+
+  var out='<div class="card"><div class="row sb"><div><h3 style="font-size:17px">'+(m.model||m.code)+'</h3>'+
+    '<div class="sm">'+m.cat+(m.size?" · "+m.size:"")+" · "+m.code+'</div></div>'+
+    '<div class="mid">'+(m.mop?rup(m.mop):"—")+'</div></div></div>';
+
+  if(!opts.length){
+    out+='<div class="note bad">No paper-finance scheme found for this model in the August workbooks.</div>';
+  } else {
+    out+='<div class="card"><div class="eyebrow" style="margin-bottom:8px">Lowest monthly first</div>'+
+      opts.slice(0,6).map(function(o){
+        return '<div class="logrow"><div class="grow"><b>'+rup(o.per)+'/month × '+o.tenure+'</b>'+
+          '<div class="sm">'+o.sch.bank+' · '+o.tenure+"/"+o.adv+' · pay '+rup(o.upfront)+' today</div></div></div>';
+      }).join("")+
+      (opts.length>6?'<div class="sm" style="margin-top:8px">+'+(opts.length-6)+' more scheme'+(opts.length-6===1?"":"s")+' — '+
+        opts.slice(6).map(function(o){return o.sch.bank}).filter(function(v,i,a){return a.indexOf(v)===i}).join(", ")+'</div>':"")+
+      '</div>';
+  }
+
+  var cb=Object.keys(m.cb||{}).map(function(b){
+    var p=m.cb[b][0], mx=m.cb[b][1]||0;
+    return { bank:b, pct:p, max:mx, amt:Math.min(m.mop?m.mop*p/100:mx, mx||1e9) };
+  }).sort(function(a,b){ return b.amt-a.amt; });
+  if(cb.length){
+    out+='<div class="card"><div class="eyebrow" style="margin-bottom:8px">Card cashback — best first</div><table>'+
+      '<tr><th>Bank</th><th style="text-align:right">%</th><th style="text-align:right">Up to</th></tr>'+
+      cb.slice(0,6).map(function(c){
+        return "<tr><td>"+c.bank+'</td><td class="n">'+c.pct+'%</td><td class="n">'+rup(c.max)+"</td></tr>";
+      }).join("")+'</table><div class="sm" style="margin-top:8px">One transaction per card per month, Pine Labs / Paytm terminal only.</div></div>';
+  }
+
+  var up=FIN.models.filter(function(x){ return x.cat===m.cat && x.mop && m.mop && x.mop>m.mop; })
+    .sort(function(a,b){ return a.mop-b.mop; }).slice(0,3);
+  if(up.length && opts.length){
+    var baseT=opts[0].tenure, basePer=opts[0].per;
+    out+='<div class="card"><div class="eyebrow" style="margin-bottom:8px">Upgrade from here</div>'+
+      up.map(function(x){
+        var per=Math.round(x.mop/baseT), d=per-basePer;
+        return '<div class="step" onclick="finPick(\''+x.code.replace(/'/g,"")+'\')" style="cursor:pointer">'+
+          '<div class="grow"><div>'+(x.model||x.code)+'</div>'+
+          '<div class="sm">'+rup(x.mop)+' · '+rup(per)+'/month on '+baseT+' months</div></div>'+
+          '<div class="amt" style="color:var(--gold)">+'+rup(d)+'/mo</div></div>';
+      }).join("")+
+      '<div class="sm" style="margin-top:6px">Compared on the same '+baseT+'-month tenure. Confirm the higher model qualifies for that scheme.</div></div>';
+  }
+
+  $("finDetail").innerHTML=out;
+  $("finDetail").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+/* ================= language ======================================= */
+function toggleLang(){ applyLang(S.lang==="en"?"hi":"en"); }
+function applyLang(l){
+  S.lang=l; ls("earnmore",JSON.stringify(S));
+  $("langBtn").textContent = l==="en" ? "हिंदी" : "English";
+  document.querySelectorAll("[data-i18n]").forEach(function(el){
+    var k=el.getAttribute("data-i18n");
+    if(l==="hi" && I18N.hi[k]) { el.dataset.en=el.dataset.en||el.textContent; el.textContent=I18N.hi[k]; }
+    else if(el.dataset.en) el.textContent=el.dataset.en;
+  });
+}
+
+/* ================= achievement + gating =========================== */
+function achievement(){
+  var d=parseFloat($("tgtDone").value)||0, t=parseFloat($("tgtTotal").value)||0;
+  return t>0 ? (d/t*100) : 0;
+}
+function unlocked(){ return achievement() >= CONFIG.minAchievementPct; }
+function unitsNeeded(pct){
+  var t=parseFloat($("tgtTotal").value)||0, d=parseFloat($("tgtDone").value)||0;
+  if(!t) return null;
+  return Math.max(0, Math.ceil(t*pct/100 - d));
+}
+
+/* ================= ladder ========================================= */
+function renderLadder(){
+  var cat=$("ladCat").value, models=CONFIG.categories[cat].models;
+  var sel=$("ladModel");
+  if(sel.dataset.cat!==cat){ fillSel(sel,models.map(function(m){return m.name})); sel.dataset.cat=cat; }
+  var i=sel.selectedIndex<0?0:sel.selectedIndex, base=models[i];
+  S.pitched={cat:cat,index:i,ts:Date.now()}; ls("earnmore",JSON.stringify(S));
+
+  var out="";
+  var above=models.slice(i+1);
+  if(!above.length){
+    out+='<div class="note good">Top of the range. Nothing above this — go for a second unit or a Havells cross-sell instead.</div>';
+  }
+  for(var k=above.length-1;k>=0;k--){
+    var m=above[k], gain=m.rate-base.rate;
+    var emiLine="";
+    if(m.emi && base.emi){
+      var d=m.emi-base.emi;
+      emiLine = d>0 ? "Customer pays "+rup(d)+"/month more" : "Same monthly EMI as "+base.name;
+    } else if(m.emi){ emiLine = rup(m.emi)+"/month on fixed EMI"; }
+    var cls = (k===0?" target":"");
+    out+='<div class="step'+cls+'">'+
+      '<div class="grow"><div class="up">'+(k===0?"REALISTIC NEXT STEP":"+"+(k+1)+" STEPS UP")+'</div>'+
+      '<div>'+m.name+'</div>'+(emiLine?'<div class="sm">'+emiLine+'</div>':'')+'</div>'+
+      '<div class="amt">+'+rup(gain)+'</div></div>';
+  }
+  out+='<div class="step asked"><div class="grow"><div class="up">CUSTOMER ASKED FOR</div><div>'+base.name+'</div></div>'+
+       '<div class="amt" style="color:var(--dim)">'+rup(base.rate)+'</div></div>';
+
+  if(!unlocked() && $("tgtTotal").value){
+    var n=unitsNeeded(CONFIG.minAchievementPct);
+    out+='<div class="note bad">None of this pays yet. You are at '+achievement().toFixed(0)+'% of target — '+
+         n+' more unit'+(n===1?"":"s")+' to cross '+CONFIG.minAchievementPct+'%.</div>';
+  }
+  var lloyd=totals().lloyd;
+  if(CONFIG.categories[cat].brand==="Lloyd" && lloyd >= CONFIG.lloydCap*0.85){
+    out+='<div class="note">Lloyd is near the '+rup(CONFIG.lloydCap)+' cap. Extra Lloyd rupees may not pay — pitch a Havells cross-sell instead.</div>';
+  }
+  $("ladderOut").innerHTML=out;
+}
+
+/* ================= sale entry ===================================== */
+function fillSaleModels(){
+  var cat=$("sCat").value;
+  fillSel($("sModel"),CONFIG.categories[cat].models.map(function(m){return m.name}));
+  checkSerial();
+}
+function serialProblem(){
+  var cat=$("sCat").value, v=($("sSerial").value||"").trim().toUpperCase();
+  var need=CONFIG.serialMandatory.indexOf(cat)>=0;
+  for(var i=0;i<CONFIG.blockedSerialPrefixes.length;i++){
+    if(v.indexOf(CONFIG.blockedSerialPrefixes[i].toUpperCase())===0)
+      return {block:true,msg:"This serial cannot be punched at all. It will pay ₹0 — do not log it as an incentive sale."};
+  }
+  if(need && !v) return {block:true,msg:"Serial is mandatory for "+cat+". Without it the sale pays ₹0."};
+  return null;
+}
+function checkSerial(){
+  var p=serialProblem();
+  $("serialMsg").innerHTML = p ? '<div class="note bad">'+p.msg+'</div>' : "";
+}
+function addSale(){
+  var p=serialProblem();
+  if(p&&p.block){ checkSerial(); return; }
+  var cat=$("sCat").value, mi=$("sModel").selectedIndex;
+  var infl = S.pitched && S.pitched.cat===cat && mi>S.pitched.index && (Date.now()-S.pitched.ts)<6*3600e3;
+  S.sales.push({
+    cat:cat, mi:mi, model:CONFIG.categories[cat].models[mi].name,
+    units:Math.max(1,parseInt($("sUnits").value)||1),
+    serial:$("sSerial").value.trim(),
+    when:$("sWhen").value, punched:false, influenced:!!infl
+  });
+  $("sSerial").value=""; $("sUnits").value=1;
+  save(); renderLog(); renderEarn(); checkSerial();
+}
+function togglePunch(i){ S.sales[i].punched=!S.sales[i].punched; save(); renderLog(); }
+function delSale(i){ S.sales.splice(i,1); save(); renderLog(); renderEarn(); }
+function clearAll(){ if(confirm("Clear every logged sale?")){ S.sales=[]; save(); renderLog(); renderEarn(); } }
+
+function hoursLeft(s){
+  if(!s.when) return null;
+  return (new Date(s.when).getTime()+CONFIG.punchWindowHours*3600e3-Date.now())/3600e3;
+}
+function renderLog(){
+  if(!S.sales.length){ $("logOut").innerHTML='<p class="sm">No sales logged yet. Add one above and the punch clock starts.</p>'; return; }
+  $("logOut").innerHTML=S.sales.map(function(s,i){
+    var h=hoursLeft(s), tag;
+    if(s.punched) tag='<span class="pill ok">Punched</span>';
+    else if(h===null) tag='<span class="pill warn">No invoice time</span>';
+    else if(h<=0) tag='<span class="pill lock">Window closed — ₹0</span>';
+    else tag='<span class="pill warn">'+h.toFixed(1)+"h left</span>";
+    return '<div class="logrow"><div class="grow"><b>'+s.model+'</b> · '+s.units+' unit'+(s.units>1?"s":"")+
+      (s.influenced?' <span class="pill ok">upgrade</span>':'')+
+      '<div class="sm">'+s.cat+(s.serial?" · "+s.serial:"")+'</div><div style="margin-top:5px">'+tag+'</div></div>'+
+      '<div style="display:flex;flex-direction:column;gap:6px">'+
+      '<button class="ghost" style="padding:6px 9px;font-size:11px" onclick="togglePunch('+i+')">'+(s.punched?"Undo":"Punched")+'</button>'+
+      '<button class="ghost" style="padding:6px 9px;font-size:11px" onclick="delSale('+i+')">Remove</button></div></div>';
+  }).join("");
+}
+
+/* ================= earnings ======================================= */
+function totals(){
+  var t={lloyd:0,havells:0,lloydRaw:0,havellsRaw:0,up:0,lost:0};
+  S.sales.forEach(function(s){
+    var c=CONFIG.categories[s.cat]; if(!c) return;
+    var amt=c.models[s.mi].rate*s.units;
+    if(s.influenced) t.up+=s.units;
+    var h=hoursLeft(s);
+    var dead = (!s.punched && h!==null && h<=0);
+    var gate = CONFIG.categoryGates[s.cat];
+    var gated = gate!==undefined && achievement()<gate;
+    if(c.brand==="Lloyd") t.lloydRaw+=amt; else t.havellsRaw+=amt;
+    if(dead||gated){ t.lost+=amt; return; }
+    if(c.brand==="Lloyd") t.lloyd+=amt; else t.havells+=amt;
+  });
+  t.lloyd=Math.min(t.lloyd,CONFIG.lloydCap);
+  return t;
+}
+function renderEarn(){
+  var a=achievement(), t=totals(), ok=unlocked();
+  $("achBar").firstElementChild.style.width=Math.min(100,a)+"%";
+  $("achBar").className="bar"+(ok?" good":"");
+  if(!$("tgtTotal").value){
+    $("achMsg").innerHTML='<p class="sm">Enter your monthly target to see what actually pays.</p>';
+  } else if(ok){
+    $("achMsg").innerHTML='<span class="pill ok">'+a.toFixed(0)+'% — payout unlocked</span>';
+  } else {
+    var n=unitsNeeded(CONFIG.minAchievementPct);
+    $("achMsg").innerHTML='<span class="pill lock">'+a.toFixed(0)+'% — nothing pays yet</span>'+
+      '<div class="note bad" style="margin-bottom:0">'+n+' more unit'+(n===1?"":"s")+' to reach '+
+      CONFIG.minAchievementPct+'% and unlock '+rup(t.lloyd+t.havells)+'.</div>';
+  }
+
+  $("lloydAmt").textContent = ok ? rup(t.lloyd) : rup(0);
+  $("lloydPill").className = "pill "+(ok?"ok":"lock");
+  $("lloydPill").textContent = ok ? "Unlocked" : "Provisional "+rup(t.lloyd);
+  $("capBar").firstElementChild.style.width=Math.min(100,t.lloyd/CONFIG.lloydCap*100)+"%";
+  $("capMsg").textContent = rup(Math.max(0,CONFIG.lloydCap-t.lloyd))+" to go · cap "+rup(CONFIG.lloydCap);
+
+  $("havAmt").textContent = ok ? rup(t.havells) : rup(0);
+  $("havMsg").textContent = ok ? "No cap — every extra unit adds up." : "Provisional "+rup(t.havells)+", unlocks at "+CONFIG.minAchievementPct+"%.";
+
+  var flip="";
+  if(t.lloyd>=CONFIG.lloydCap) flip='<div class="note">Lloyd cap reached. Further Lloyd incentive pays nothing this month — put every pitch into Havells cross-sell, which has no cap.</div>';
+  else if(t.lloyd>=CONFIG.lloydCap*0.85) flip='<div class="note">'+rup(CONFIG.lloydCap-t.lloyd)+' left before the Lloyd cap. Start mixing in Havells cross-sell now.</div>';
+  if(t.lost>0) flip+='<div class="note bad">'+rup(t.lost)+' logged but not payable — closed punch windows or a category gate not met. Check the log.</div>';
+  $("capFlip").innerHTML=flip;
+  $("upCount").textContent=t.up;
+}
+
+/* ================= export ========================================= */
+function exportCSV(){
+  var rows=[["Category","Model","Units","Serial","Invoice","Punched","Influenced upgrade"]];
+  S.sales.forEach(function(s){ rows.push([s.cat,s.model,s.units,s.serial,s.when,s.punched?"Yes":"No",s.influenced?"Yes":"No"]); });
+  var csv=rows.map(function(r){return r.map(function(c){return '"'+String(c).replace(/"/g,'""')+'"'}).join(",")}).join("\n");
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));
+  a.download="earn-more-sales.csv"; a.click();
+}
+function sendTL(){
+  var t=totals();
+  var msg="Sales update\nAchievement: "+achievement().toFixed(0)+"%\nLloyd: "+rup(t.lloyd)+
+    "\nHavells: "+rup(t.havells)+"\nUpgrades influenced: "+t.up+"\nUnits logged: "+
+    S.sales.reduce(function(a,s){return a+s.units},0);
+  window.open("https://wa.me/?text="+encodeURIComponent(msg),"_blank");
+}
+
+/* ================= rates tab ====================================== */
+function renderRates(){
+  var out="";
+  Object.keys(CONFIG.categories).forEach(function(c){
+    var cat=CONFIG.categories[c];
+    out+='<div class="card"><div class="row sb" style="margin-bottom:6px"><h3 style="font-size:15px">'+c+
+      '</h3><span class="pill '+(cat.brand==="Lloyd"?"warn":"ok")+'">'+cat.brand+'</span></div>'+
+      '<table><tr><th>Model</th><th style="text-align:right">Per unit</th><th style="text-align:right">Fixed EMI</th></tr>'+
+      cat.models.map(function(m){
+        return "<tr><td>"+m.name+'</td><td class="n">'+rup(m.rate)+'</td><td class="n">'+(m.emi?rup(m.emi)+"/mo":"—")+"</td></tr>";
+      }).join("")+"</table>";
+    if(CONFIG.categoryGates[c]) out+='<div class="note" style="margin-bottom:0">Needs '+CONFIG.categoryGates[c]+'% target achievement before any slab pays.</div>';
+    out+="</div>";
+  });
+  $("ratesOut").innerHTML=out;
+  $("rulesOut").innerHTML=CONFIG.rules.map(function(r){return "<p>• "+r+"</p>"}).join("");
+}
+
+boot();
+</script>
+</body>
+</html>
